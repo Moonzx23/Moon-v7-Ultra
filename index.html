@@ -1,0 +1,322 @@
+```html
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonBot V7 Ultra</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #050505;
+    color: white;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* ================= INTRO ================= */
+
+#intro {
+    position: fixed;
+    inset: 0;
+    background: #050505;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+}
+
+.moon {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 0 35px white;
+    margin-bottom: 25px;
+}
+
+#introText {
+    font-size: 14px;
+    color: #999;
+    min-height: 20px;
+    margin-bottom: 18px;
+}
+
+.logo {
+    font-size: 42px;
+    font-weight: bold;
+    letter-spacing: 7px;
+    margin-bottom: 8px;
+}
+
+.creator {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 28px;
+}
+
+.enter {
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+    padding: 13px 32px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    display: none;
+    transition: 0.2s;
+}
+
+.enter:hover {
+    background: white;
+    color: black;
+    box-shadow: 0 0 20px white;
+}
+
+/* ================= CHAT ================= */
+
+#app {
+    display: none;
+    height: 100vh;
+    flex-direction: column;
+}
+
+header {
+    padding: 18px;
+    border-bottom: 1px solid #222;
+    font-weight: bold;
+}
+
+#chat {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    background: #111;
+    border: 1px solid #222;
+}
+
+.inputArea {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    border-top: 1px solid #222;
+}
+
+input {
+    flex: 1;
+    padding: 13px;
+    background: #111;
+    color: white;
+    border: 1px solid #333;
+    border-radius: 8px;
+    outline: none;
+}
+
+.send {
+    padding: 13px 20px;
+    background: white;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.send:hover {
+    opacity: 0.8;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= INTRO ================= -->
+
+<div id="intro">
+
+    <div class="moon"></div>
+
+    <div id="introText">
+        MOONBOT INITIALIZING...
+    </div>
+
+    <div class="logo">
+        MOONBOT
+    </div>
+
+    <div class="creator">
+        Created by Nazreel • 2026
+    </div>
+
+    <button class="enter" id="enterBtn">
+        ENTER MOONBOT
+    </button>
+
+</div>
+
+
+<!-- ================= CHATBOT ================= -->
+
+<div id="app">
+
+    <header>
+        🌙 MOONBOT V7 ULTRA
+    </header>
+
+    <div id="chat">
+
+        <div class="message">
+            🌙 MoonBot: Hai! Saya MoonBot V7 Ultra.
+        </div>
+
+    </div>
+
+    <div class="inputArea">
+
+        <input
+            id="input"
+            placeholder="Tulis mesej..."
+            autocomplete="off"
+        >
+
+        <button
+            class="send"
+            onclick="sendMessage()"
+        >
+            SEND
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ================= INTRO SYSTEM ================= */
+
+const introText = document.getElementById("introText");
+const enterBtn = document.getElementById("enterBtn");
+
+const introMessages = [
+    "MOONBOT INITIALIZING...",
+    "MOON CORE DETECTED",
+    "SYSTEM ONLINE"
+];
+
+let currentMessage = 0;
+
+function introSequence() {
+
+    if (currentMessage < introMessages.length) {
+
+        introText.textContent =
+            introMessages[currentMessage];
+
+        currentMessage++;
+
+        setTimeout(introSequence, 1000);
+
+    } else {
+
+        enterBtn.style.display = "block";
+
+    }
+
+}
+
+introSequence();
+
+
+/* ================= ENTER BUTTON ================= */
+
+enterBtn.addEventListener("click", function() {
+
+    document.getElementById("intro").style.display = "none";
+
+    document.getElementById("app").style.display = "flex";
+
+});
+
+
+/* ================= CHAT SYSTEM ================= */
+
+function sendMessage() {
+
+    const input = document.getElementById("input");
+    const chat = document.getElementById("chat");
+
+    const text = input.value.trim();
+
+    if (!text) return;
+
+
+    chat.innerHTML += `
+        <div class="message">
+            👤 Kamu: ${escapeHTML(text)}
+        </div>
+    `;
+
+
+    chat.innerHTML += `
+        <div class="message">
+            🌙 MoonBot: Saya menerima mesej anda.
+        </div>
+    `;
+
+
+    input.value = "";
+
+    chat.scrollTop = chat.scrollHeight;
+
+}
+
+
+/* ================= ENTER TO SEND ================= */
+
+document
+.getElementById("input")
+.addEventListener("keydown", function(e) {
+
+    if (e.key === "Enter" && !e.shiftKey) {
+
+        e.preventDefault();
+
+        sendMessage();
+
+    }
+
+});
+
+
+/* ================= SECURITY ================= */
+
+function escapeHTML(text) {
+
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+</script>
+
+</body>
+</html>
+```
