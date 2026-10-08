@@ -3,140 +3,91 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>MoonBot V7 Ultra</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+body{margin:0;background:#050505;color:#fff;font-family:Arial,sans-serif;overflow:hidden}
+button,textarea{font-family:inherit}
+
+/* INTRO — KEKAL RINGKAS */
+#intro{
+ position:fixed;inset:0;background:#050505;z-index:20;
+ display:flex;flex-direction:column;justify-content:center;
+ align-items:center;text-align:center
 }
-
-body {
-    margin: 0;
-    background: #050505;
-    color: white;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
+.moon{
+ width:82px;height:82px;border-radius:50%;background:#fff;
+ box-shadow:0 0 35px #fff;margin-bottom:24px
 }
-
-/* ================= INTRO ================= */
-
-#intro {
-    position: fixed;
-    inset: 0;
-    background: #050505;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    z-index: 10;
+#introText{color:#999;font-size:14px;min-height:20px;margin-bottom:16px}
+.logo{font-size:42px;font-weight:bold;letter-spacing:7px;margin-bottom:8px}
+.creator{color:#777;font-size:13px;margin-bottom:26px}
+.enter{
+ display:none;padding:13px 30px;border:1px solid #fff;border-radius:8px;
+ background:transparent;color:#fff;cursor:pointer;font-weight:bold
 }
+.enter:hover{background:#fff;color:#000;box-shadow:0 0 20px #fff}
 
-.moon {
-    width: 85px;
-    height: 85px;
-    border-radius: 50%;
-    background: white;
-    box-shadow: 0 0 35px white;
-    margin-bottom: 25px;
+/* APP */
+#app{display:none;height:100vh}
+.sidebar{
+ width:230px;background:#090909;border-right:1px solid #222;
+ padding:18px;display:flex;flex-direction:column;gap:9px
 }
-
-#introText {
-    font-size: 14px;
-    color: #999;
-    min-height: 20px;
-    margin-bottom: 18px;
+.sideTitle{font-size:20px;font-weight:bold;margin-bottom:8px}
+.sideSub{font-size:11px;color:#777;margin-bottom:12px}
+.mode,.sideBtn{
+ width:100%;padding:11px;border:1px solid #292929;border-radius:8px;
+ background:#111;color:#ddd;text-align:left;cursor:pointer
 }
-
-.logo {
-    font-size: 42px;
-    font-weight: bold;
-    letter-spacing: 7px;
-    margin-bottom: 8px;
+.mode:hover,.sideBtn:hover,.active{background:#fff;color:#000}
+#historyList{
+ flex:1;overflow:auto;margin-top:6px
 }
-
-.creator {
-    font-size: 13px;
-    color: #777;
-    margin-bottom: 28px;
+.historyItem{
+ padding:9px;border-bottom:1px solid #222;color:#aaa;
+ font-size:12px;cursor:pointer;white-space:nowrap;
+ overflow:hidden;text-overflow:ellipsis
 }
-
-.enter {
-    background: transparent;
-    color: white;
-    border: 1px solid white;
-    padding: 13px 32px;
-    border-radius: 8px;
-    font-size: 15px;
-    cursor: pointer;
-    display: none;
-    transition: 0.2s;
+.historyItem:hover{color:#fff;background:#111}
+.clearBtn{
+ border:1px solid #333;background:#111;color:#aaa;
+ padding:9px;border-radius:8px;cursor:pointer
 }
-
-.enter:hover {
-    background: white;
-    color: black;
-    box-shadow: 0 0 20px white;
+.main{flex:1;display:flex;flex-direction:column;min-width:0}
+header{
+ height:60px;border-bottom:1px solid #222;padding:0 20px;
+ display:flex;align-items:center;justify-content:space-between
 }
-
-/* ================= CHAT ================= */
-
-#app {
-    display: none;
-    height: 100vh;
-    flex-direction: column;
+.status{font-size:12px;color:#777}
+#chat{flex:1;overflow-y:auto;padding:20px}
+.message{
+ max-width:850px;margin-bottom:13px;padding:12px 14px;
+ border-radius:10px;background:#111;border:1px solid #222;
+ line-height:1.5;white-space:normal
 }
-
-header {
-    padding: 18px;
-    border-bottom: 1px solid #222;
-    font-weight: bold;
+.user{margin-left:auto;background:#181818}
+.bot{margin-right:auto}
+.time{display:block;font-size:10px;color:#666;margin-top:6px}
+.inputArea{
+ display:flex;gap:10px;padding:14px;border-top:1px solid #222
 }
-
-#chat {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
+textarea{
+ flex:1;resize:none;min-height:48px;max-height:120px;padding:13px;
+ background:#111;color:#fff;border:1px solid #333;border-radius:8px;
+ outline:none
 }
-
-.message {
-    margin-bottom: 15px;
-    padding: 12px;
-    border-radius: 10px;
-    background: #111;
-    border: 1px solid #222;
+.send{
+ padding:0 20px;border:0;border-radius:8px;background:#fff;color:#000;
+ font-weight:bold;cursor:pointer
 }
-
-.inputArea {
-    display: flex;
-    gap: 10px;
-    padding: 15px;
-    border-top: 1px solid #222;
-}
-
-input {
-    flex: 1;
-    padding: 13px;
-    background: #111;
-    color: white;
-    border: 1px solid #333;
-    border-radius: 8px;
-    outline: none;
-}
-
-.send {
-    padding: 13px 20px;
-    background: white;
-    color: black;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.send:hover {
-    opacity: 0.8;
+.send:hover{opacity:.8}
+@media(max-width:700px){
+ .sidebar{width:170px;padding:10px}
+ .logo{font-size:32px}
+ .mode,.sideBtn{font-size:12px}
 }
 </style>
 </head>
@@ -144,179 +95,557 @@ input {
 <body>
 
 <!-- ================= INTRO ================= -->
-
 <div id="intro">
-
-    <div class="moon"></div>
-
-    <div id="introText">
-        MOONBOT INITIALIZING...
-    </div>
-
-    <div class="logo">
-        MOONBOT
-    </div>
-
-    <div class="creator">
-        Created by Nazreel • 2026
-    </div>
-
-    <button class="enter" id="enterBtn">
-        ENTER MOONBOT
-    </button>
-
+ <div class="moon"></div>
+ <div id="introText">MOONBOT INITIALIZING...</div>
+ <div class="logo">MOONBOT</div>
+ <div class="creator">Created by Nazreel • 2026</div>
+ <button class="enter" id="enterBtn">ENTER MOONBOT</button>
 </div>
 
-
-<!-- ================= CHATBOT ================= -->
-
+<!-- ================= APP ================= -->
 <div id="app">
 
-    <header>
-        🌙 MOONBOT V7 ULTRA
-    </header>
+ <aside class="sidebar">
+  <div class="sideTitle">🌙 MoonBot</div>
+  <div class="sideSub">V7 ULTRA • LOCAL CORE</div>
 
-    <div id="chat">
+  <button class="mode active" data-mode="standard">🌙 Standard</button>
+  <button class="mode" data-mode="medium">🧠 Medium</button>
+  <button class="mode" data-mode="fast">⚡ Fast</button>
 
-        <div class="message">
-            🌙 MoonBot: Hai! Saya MoonBot V7 Ultra.
-        </div>
+  <button class="sideBtn" id="newChat">＋ New Chat</button>
+  <button class="sideBtn" id="historyBtn">🕘 History</button>
 
-    </div>
+  <div id="historyList"></div>
 
-    <div class="inputArea">
+  <button class="clearBtn" id="clearHistory">🗑 Clear History</button>
+ </aside>
 
-        <input
-            id="input"
-            placeholder="Tulis mesej..."
-            autocomplete="off"
-        >
+ <main class="main">
+  <header>
+   <b>MOONBOT V7 ULTRA</b>
+   <span class="status" id="modeStatus">STANDARD</span>
+  </header>
 
-        <button
-            class="send"
-            onclick="sendMessage()"
-        >
-            SEND
-        </button>
+  <section id="chat"></section>
 
-    </div>
+  <div class="inputArea">
+   <textarea id="input" placeholder="Tulis mesej..."></textarea>
+   <button class="send" id="sendBtn">SEND</button>
+  </div>
+ </main>
 
 </div>
 
-
 <script>
+/* =========================================================
+   MOONBOT V7 ULTRA CORE
+   Intro + Standard/Medium/Fast + History + Knowledge + Math
+========================================================= */
 
-/* ================= INTRO SYSTEM ================= */
+/* ---------- INTRO ---------- */
+const intro=document.getElementById("intro");
+const introText=document.getElementById("introText");
+const enterBtn=document.getElementById("enterBtn");
 
-const introText = document.getElementById("introText");
-const enterBtn = document.getElementById("enterBtn");
-
-const introMessages = [
-    "MOONBOT INITIALIZING...",
-    "MOON CORE DETECTED",
-    "SYSTEM ONLINE"
+const introMessages=[
+ "MOONBOT INITIALIZING...",
+ "MOON CORE DETECTED",
+ "SYSTEM ONLINE"
 ];
 
-let currentMessage = 0;
+let introIndex=0;
 
-function introSequence() {
+function runIntro(){
+ if(introIndex<introMessages.length){
+  introText.textContent=introMessages[introIndex++];
+  setTimeout(runIntro,900);
+ }else{
+  enterBtn.style.display="block";
+ }
+}
+runIntro();
 
-    if (currentMessage < introMessages.length) {
+enterBtn.onclick=()=>{
+ intro.style.display="none";
+ document.getElementById("app").style.display="flex";
+ loadHistoryList();
+};
 
-        introText.textContent =
-            introMessages[currentMessage];
+/* ---------- STATE ---------- */
+const chat=document.getElementById("chat");
+const input=document.getElementById("input");
+const historyList=document.getElementById("historyList");
+const modeStatus=document.getElementById("modeStatus");
 
-        currentMessage++;
+let mode="standard";
+let currentChat=[];
+let savedChats=[];
 
-        setTimeout(introSequence, 1000);
-
-    } else {
-
-        enterBtn.style.display = "block";
-
-    }
-
+/* ---------- STORAGE ---------- */
+function loadSavedChats(){
+ try{
+  savedChats=JSON.parse(localStorage.getItem("moonbot_v7_chats")||"[]");
+  if(!Array.isArray(savedChats))savedChats=[];
+ }catch(e){savedChats=[]}
 }
 
-introSequence();
+function saveSavedChats(){
+ localStorage.setItem("moonbot_v7_chats",JSON.stringify(savedChats));
+}
 
+loadSavedChats();
 
-/* ================= ENTER BUTTON ================= */
+/* ---------- MODES ---------- */
+document.querySelectorAll(".mode").forEach(btn=>{
+ btn.onclick=()=>{
+  document.querySelectorAll(".mode").forEach(x=>x.classList.remove("active"));
+  btn.classList.add("active");
+  mode=btn.dataset.mode;
+  modeStatus.textContent=mode.toUpperCase();
 
-enterBtn.addEventListener("click", function() {
+  const names={
+   standard:"Standard",
+   medium:"Medium",
+   fast:"Fast"
+  };
 
-    document.getElementById("intro").style.display = "none";
+  addBot("⚙️ Mode ditukar kepada <b>"+names[mode]+"</b>.");
+ };
+});
 
-    document.getElementById("app").style.display = "flex";
+/* ---------- NORMALIZE ---------- */
+function normalize(text){
+ let t=text.toLowerCase().trim();
+
+ const map={
+  "ape":"apa","sape":"siapa","camne":"macam mana",
+  "nk":"nak","tk":"tak","tkde":"tak ada","takde":"tak ada",
+  "xde":"tak ada","dh":"dah","yg":"yang","dgn":"dengan",
+  "kat":"di","org":"orang","kwn":"kawan","klu":"kalau",
+  "mcm":"macam","bg":"bagi","bgi":"bagi","blh":"boleh",
+  "takleh":"tak boleh","xleh":"tak boleh","skrg":"sekarang",
+  "sbb":"sebab","mkn":"makan","tgh":"tengah","dkt":"dekat",
+  "nkbuat":"nak buat"
+ };
+
+ for(const word in map){
+  const r=new RegExp("\\b"+word+"\\b","g");
+  t=t.replace(r,map[word]);
+ }
+ return t;
+}
+
+/* ---------- MATH ---------- */
+function solveMath(text){
+ let t=text.toLowerCase()
+  .replace(/,/g,"")
+  .replace(/×/g,"*")
+  .replace(/÷/g,"/")
+  .replace(/\bx\b/g,"*");
+
+ let m=t.match(/(-?\d+(?:\.\d+)?)\s*%\s*(?:daripada|of)\s*(-?\d+(?:\.\d+)?)/);
+ if(m){
+  return parseFloat(m[1])/100*parseFloat(m[2]);
+ }
+
+ m=t.match(/(-?\d+(?:\.\d+)?)\s+daripada\s+(-?\d+(?:\.\d+)?)/);
+ if(m && parseFloat(m[2])!==0){
+  return (parseFloat(m[1])/parseFloat(m[2])*100).toFixed(2)+"%";
+ }
+
+ if(/^[0-9+\-*/().\s]+$/.test(t)&&/[+\-*/]/.test(t)){
+  try{
+   const result=Function('"use strict";return ('+t+')')();
+   if(Number.isFinite(result))return result;
+  }catch(e){}
+ }
+
+ return null;
+}
+
+/* ---------- KNOWLEDGE ---------- */
+const knowledge=[
+
+ /* Creator */
+ [/siapa pencipta moonbot|siapa creator moonbot|siapa buat moonbot|siapa cipta moonbot/,
+  "🌙 Pencipta MoonBot ialah <b>Nazreel</b>. MoonBot ialah projek AI/web yang dibangunkan pada tahun 2026."],
+
+ [/moonbot dibuat bila|bila moonbot dibuat/,
+  "📅 MoonBot mula dibangunkan pada tahun <b>2026</b> dan berkembang melalui beberapa versi."],
+
+ [/versi moonbot/,
+  "🌙 Projek MoonBot telah berkembang melalui beberapa versi termasuk V4, V5, V6 dan V7 Ultra."],
+
+ [/teknologi moonbot/,
+  "💻 MoonBot ini dibina menggunakan <b>HTML, CSS dan JavaScript</b>."],
+
+ /* Malaysia */
+ [/berapa negeri malaysia|malaysia ada berapa negeri/,
+  "🇲🇾 Malaysia mempunyai <b>13 negeri</b> dan <b>3 Wilayah Persekutuan</b>."],
+
+ [/ibu negara malaysia/,
+  "🇲🇾 Ibu negara Malaysia ialah <b>Kuala Lumpur</b>."],
+
+ [/pusat pentadbiran malaysia/,
+  "🏛️ Pusat pentadbiran Persekutuan Malaysia ialah <b>Putrajaya</b>."],
+
+ [/hari kebangsaan malaysia|merdeka malaysia/,
+  "🇲🇾 Hari Kebangsaan Malaysia disambut pada <b>31 Ogos</b>."],
+
+ [/hari malaysia/,
+  "🇲🇾 Hari Malaysia disambut pada <b>16 September</b>."],
+
+ [/tunku abdul rahman/,
+  "🇲🇾 Tunku Abdul Rahman Putra Al-Haj ialah Perdana Menteri pertama Malaysia dan dikenali sebagai Bapa Kemerdekaan."],
+
+ /* History */
+ [/bendahara paling masyhur|bendahara zaman sultan mansur shah/,
+  "📚 Bendahara yang paling masyhur pada zaman Sultan Mansur Shah ialah <b>Tun Perak</b>."],
+
+ [/siapa tun perak/,
+  "📚 Tun Perak ialah Bendahara Melaka yang terkenal dan berkhidmat kepada beberapa orang Sultan Melaka."],
+
+ [/melaka diasaskan|melaka ditubuhkan/,
+  "📚 Kesultanan Melaka diasaskan oleh <b>Parameswara</b>."],
+
+ /* Science */
+ [/fotosintesis|photosynthesis/,
+  "🌱 Fotosintesis ialah proses tumbuhan menghasilkan makanan menggunakan cahaya matahari, air dan karbon dioksida."],
+
+ [/planet terbesar/,
+  "🪐 Planet terbesar dalam Sistem Suria ialah <b>Musytari (Jupiter)</b>."],
+
+ [/planet merah/,
+  "🔴 Planet Merah ialah <b>Marikh (Mars)</b>."],
+
+ [/air mendidih/,
+  "💧 Pada tekanan atmosfera biasa, air mendidih pada kira-kira <b>100°C</b>."],
+
+ [/graviti/,
+  "🌍 Graviti ialah daya tarikan antara objek yang mempunyai jisim."],
+
+ /* Geography */
+ [/benua terbesar/,
+  "🌏 Benua terbesar ialah <b>Asia</b>."],
+
+ [/sungai terpanjang malaysia/,
+  "🌊 Sungai terpanjang di Malaysia ialah <b>Sungai Rajang</b>."],
+
+ [/gunung tertinggi malaysia/,
+  "⛰️ Gunung tertinggi di Malaysia ialah <b>Gunung Kinabalu</b>."],
+
+ /* BM */
+ [/kata nafi/,
+  "✍️ Kata nafi utama ialah <b>tidak</b> dan <b>bukan</b>."],
+
+ [/kata hubung/,
+  "✍️ Kata hubung menghubungkan perkataan, frasa atau ayat. Contoh: dan, tetapi, kerana, atau."],
+
+ [/kata nama/,
+  "✍️ Kata nama merujuk kepada orang, haiwan, benda atau tempat."],
+
+ [/kata kerja/,
+  "✍️ Kata kerja menunjukkan perbuatan atau keadaan. Contoh: makan, berlari, tidur."],
+
+ [/kata adjektif/,
+  "✍️ Kata adjektif menerangkan sifat atau keadaan. Contoh: cantik, besar, rajin."],
+
+ /* English */
+ [/what is noun/,
+  "🇬🇧 A noun names a person, place, animal, thing or idea."],
+
+ [/what is verb/,
+  "🇬🇧 A verb usually describes an action or state."],
+
+ [/what is adjective/,
+  "🇬🇧 An adjective describes a noun."],
+
+ /* Coding */
+ [/apa itu html/,
+  "💻 HTML digunakan untuk membina struktur laman web."],
+
+ [/apa itu css/,
+  "🎨 CSS digunakan untuk menggayakan laman web seperti warna, saiz dan susun atur."],
+
+ [/apa itu javascript/,
+  "⚡ JavaScript digunakan untuk menambah fungsi dan interaksi pada laman web."],
+
+ [/apa itu python/,
+  "🐍 Python ialah bahasa pengaturcaraan yang digunakan untuk pelbagai tugas termasuk automasi, data dan AI."],
+
+ /* Sports */
+ [/siapa ronaldo/,
+  "⚽ Cristiano Ronaldo ialah pemain bola sepak profesional dari Portugal."],
+
+ [/apa itu bola sepak/,
+  "⚽ Bola sepak ialah sukan berpasukan yang biasanya dimainkan oleh dua pasukan dengan 11 pemain setiap satu."],
+
+ [/200 meter|200m/,
+  "🏃 200 meter ialah acara pecut dalam olahraga."],
+
+ [/futsal/,
+  "⚽ Futsal ialah sukan bola sepak dalam format gelanggang yang lebih kecil."],
+
+ [/sepak takraw|takraw/,
+  "🏐 Sepak takraw ialah sukan yang menggunakan kaki, kepala dan bahagian badan tertentu untuk mengawal bola."],
+
+ [/handball|bola baling/,
+  "🤾 Bola baling ialah sukan berpasukan yang menggunakan tangan untuk menghantar dan menjaringkan bola."],
+
+ [/silat/,
+  "🥋 Silat ialah seni bela diri tradisional yang berkembang di rantau Nusantara."],
+
+ /* PKSK */
+ [/apa itu pksk/,
+  "📚 PKSK ialah Pentaksiran Kemasukan Sekolah Khusus."],
+
+ [/smka/,
+  "🏫 SMKA ialah Sekolah Menengah Kebangsaan Agama."],
+
+ [/sbp/,
+  "🏫 SBP ialah Sekolah Berasrama Penuh."],
+
+ [/karangan pksk/,
+  "✍️ Untuk karangan PKSK, gunakan pendahuluan, isi + huraian + contoh, kemudian penutup. Gunakan penanda wacana yang sesuai."],
+
+ /* Languages */
+ [/hola/,
+  "🇪🇸 Hola bermaksud 'hai' dalam bahasa Sepanyol."],
+
+ [/konnichiwa/,
+  "🇯🇵 Konnichiwa ialah ucapan 'hello' dalam bahasa Jepun."],
+
+ [/annyeonghaseyo/,
+  "🇰🇷 Annyeonghaseyo ialah ucapan 'hello' dalam bahasa Korea."],
+
+ [/bonjour/,
+  "🇫🇷 Bonjour bermaksud 'hello' dalam bahasa Perancis."],
+
+ /* General */
+ [/apa itu haiwan/,
+  "🐾 Haiwan ialah organisma hidup yang biasanya boleh bergerak dan memperoleh tenaga daripada makanan."],
+
+ [/apa itu batu/,
+  "🪨 Batu ialah bahan pepejal semula jadi yang terdiri daripada satu atau beberapa mineral."],
+
+ [/siapa cikgu/,
+  "👨‍🏫 Cikgu ialah orang yang mengajar dan membimbing murid."],
+
+ [/siapa pencipta chatgpt/,
+  "🤖 ChatGPT dibangunkan oleh OpenAI."],
+
+ [/terima kasih|thanks/,
+  "🌙 Sama-sama!"],
+
+ [/selamat malam/,
+  "🌙 Selamat malam! Rehat secukupnya."]
+];
+
+/* ---------- ANSWER ENGINE ---------- */
+function answerQuestion(raw){
+
+ const q=normalize(raw);
+ const math=solveMath(q);
+
+ if(math!==null){
+  return "🧮 Jawapan: <b>"+math+"</b>";
+ }
+
+ if(q==="hai"||q==="hello"||q==="helo"){
+  return "🌙 Hai! Saya MoonBot V7 Ultra. Apa yang nak kau tanya?";
+ }
+
+ for(const item of knowledge){
+  if(item[0].test(q))return item[1];
+ }
+
+ return "🧠 Saya belum mempunyai jawapan khusus untuk soalan itu dalam knowledge base saya. Cuba tanya tentang Matematik, Sains, Sejarah, Malaysia, Bahasa, coding, sukan atau PKSK.";
+}
+
+/* ---------- MODE RESPONSE ---------- */
+function formatByMode(text){
+
+ if(mode==="fast"){
+  return text
+   .replace(/<[^>]*>/g,"")
+   .split(".")[0]+".";
+ }
+
+ if(mode==="medium"){
+  return text;
+ }
+
+ return text;
+}
+
+/* ---------- TIME ---------- */
+function now(){
+ return new Date().toLocaleTimeString("ms-MY",{
+  hour:"2-digit",minute:"2-digit"
+ });
+}
+
+/* ---------- ESCAPE ---------- */
+function escapeHTML(text){
+ return text.replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+}
+
+/* ---------- MESSAGE ---------- */
+function addUser(text){
+ const div=document.createElement("div");
+ div.className="message user";
+ div.innerHTML="👤 <b>Kamu:</b> "+escapeHTML(text)+
+  '<span class="time">'+now()+"</span>";
+ chat.appendChild(div);
+}
+
+function addBot(text){
+ const div=document.createElement("div");
+ div.className="message bot";
+ div.innerHTML="🌙 <b>MoonBot:</b> "+text+
+  '<span class="time">'+now()+"</span>";
+ chat.appendChild(div);
+ chat.scrollTop=chat.scrollHeight;
+}
+
+/* ---------- SEND ---------- */
+function sendMessage(){
+
+ const raw=input.value.trim();
+ if(!raw)return;
+
+ addUser(raw);
+
+ const reply=formatByMode(answerQuestion(raw));
+ addBot(reply);
+
+ currentChat.push({
+  user:raw,
+  bot:reply,
+  time:now()
+ });
+
+ input.value="";
+ input.style.height="48px";
+ chat.scrollTop=chat.scrollHeight;
+}
+
+/* ---------- NEW CHAT ---------- */
+document.getElementById("newChat").onclick=()=>{
+
+ if(currentChat.length>0){
+
+  savedChats.unshift({
+   title:currentChat[0].user.slice(0,45),
+   messages:currentChat,
+   date:new Date().toLocaleDateString("ms-MY")
+  });
+
+  savedChats=savedChats.slice(0,30);
+  saveSavedChats();
+ }
+
+ currentChat=[];
+ chat.innerHTML="";
+
+ addBot("🌙 Chat baharu dimulakan. Apa yang nak kau tanya?");
+ loadHistoryList();
+};
+
+/* ---------- HISTORY ---------- */
+function loadHistoryList(){
+
+ historyList.innerHTML="";
+
+ savedChats.forEach((item,index)=>{
+
+  const div=document.createElement("div");
+  div.className="historyItem";
+  div.textContent="🕘 "+item.title;
+
+  div.onclick=()=>openHistory(index);
+
+  historyList.appendChild(div);
+ });
+}
+
+function openHistory(index){
+
+ const item=savedChats[index];
+
+ if(!item)return;
+
+ chat.innerHTML="";
+
+ item.messages.forEach(msg=>{
+  addUser(msg.user);
+  addBot(msg.bot);
+ });
+
+ currentChat=[...item.messages];
+}
+
+/* ---------- HISTORY BUTTON ---------- */
+document.getElementById("historyBtn").onclick=()=>{
+
+ if(historyList.style.display==="none"){
+  historyList.style.display="block";
+ }else{
+  historyList.style.display="block";
+ }
+
+ loadHistoryList();
+};
+
+/* ---------- CLEAR HISTORY ---------- */
+document.getElementById("clearHistory").onclick=()=>{
+
+ if(!confirm("Padam semua history MoonBot?"))return;
+
+ savedChats=[];
+ currentChat=[];
+
+ localStorage.removeItem("moonbot_v7_chats");
+
+ loadHistoryList();
+
+ chat.innerHTML="";
+ addBot("🗑️ History telah dipadam.");
+};
+
+/* ---------- ENTER / SHIFT+ENTER ---------- */
+input.addEventListener("keydown",e=>{
+
+ if(e.key==="Enter"&&!e.shiftKey){
+
+  e.preventDefault();
+  sendMessage();
+
+ }
 
 });
 
+input.addEventListener("input",()=>{
 
-/* ================= CHAT SYSTEM ================= */
-
-function sendMessage() {
-
-    const input = document.getElementById("input");
-    const chat = document.getElementById("chat");
-
-    const text = input.value.trim();
-
-    if (!text) return;
-
-
-    chat.innerHTML += `
-        <div class="message">
-            👤 Kamu: ${escapeHTML(text)}
-        </div>
-    `;
-
-
-    chat.innerHTML += `
-        <div class="message">
-            🌙 MoonBot: Saya menerima mesej anda.
-        </div>
-    `;
-
-
-    input.value = "";
-
-    chat.scrollTop = chat.scrollHeight;
-
-}
-
-
-/* ================= ENTER TO SEND ================= */
-
-document
-.getElementById("input")
-.addEventListener("keydown", function(e) {
-
-    if (e.key === "Enter" && !e.shiftKey) {
-
-        e.preventDefault();
-
-        sendMessage();
-
-    }
+ input.style.height="48px";
+ input.style.height=Math.min(input.scrollHeight,120)+"px";
 
 });
 
+/* ---------- SEND BUTTON ---------- */
+document.getElementById("sendBtn").onclick=sendMessage;
 
-/* ================= SECURITY ================= */
-
-function escapeHTML(text) {
-
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
+/* ---------- INITIAL ---------- */
+chat.innerHTML="";
+addBot("🌙 Hai! Saya MoonBot V7 Ultra. Saya sedia membantu.");
 
 </script>
-
 </body>
 </html>
 ```
